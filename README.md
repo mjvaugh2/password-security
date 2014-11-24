@@ -205,7 +205,50 @@ phpBB2 was the most up to date  version at that time – and it had some securit
 	</tr>
 </table>
 
- 	
+<p>You will notice in the above example even the passwords that are exactly the same do not have the same hash stored in the database due to their unique salts. Further, none of the above hashes match their corresponding entry in the above lookup table thanks to the hashes.</p> 
+
+<h4>Key Stretching : Defense against Brute Force</h4>
+
+<p>Key stretching is essentially a method that makes creating the hashes we discussed above slow enough that it is impractical to try every possible combination of characters to create a password even with incredibly powerful computers. There of course, is a balancing act here because there should not be a noticeable delay for users genuinely attempting to login. </p>
+
+<p>These functions typically take an iteration amount, a hashing algorithm, and the salt being used. These functions iterate through the entire hashing process that many times to create a derived key that is then used for the hash. The key stretching function used in my code is the PBKDF2 function developed by RSA Laboratories and published as part of the Internet Engineering Task Force’s RFC 2898. </p>
+ 
+<p>For the aforementioned benefits, salting and then hashing passwords using a key stretching function is the method I chose to explore for my personal project. 
+With the theory above, I delved into the tutorial and after about ten hours of trying to recreate the code provided and failing to get it to work I took it upon myself to take the building blocks and concepts of the tutorial and write my own code. 
+Much like the tutorial, my code is broken up into three main function: one to create salted-hashed password, one to validate passwords, and one to check if strings are equal in length-constant time.</p> 
+
+<img src="./pictures/Create_Password_Function.PNG" alt="function for creating password salted, hashed, etc." />
+
+<p>This function uses the OpenSSL random generator to create a salt of a specified length. OpenSSL’s random pseudo bytes generator is unique in that it provides cryptographically strong random bytes of a specified length. Then I used bin2hex to turn the created binary values into hexadecimal for easier storage in MySQL.</p>
+ 
+<p>The last few lines of code assign all of the information needed to recalculate the hash (other than the password itself) into a string for storage in the database. The hyphens between the different aspects allow for easily breaking up the stored values for recalculation when needing to compare an entered password with what is in the database, and using constants as shown above for each part’s positioning in the string allows for easily changing the  structure of the string stored in the database if the need arises at a later date.</p>
+ 
+<img src="./pictures/Validate_Password_Function.PNG" alt="function for validating passwords created using the previous function" />
+ 
+<p>The above code selects the hashed password from the database connected to a supplied username (reporting back that no such user exists and thus not allowing login if there is no such user). Then it breaks up what is stored in the database into its components, calculates a hash using the pbkdf2 function just as it was when the orgininal password was created and then passes the hash in the database and the hash calculated using the entered password to a function I wrote called “slow_equal” which is meant to return if the values equal or not in a length-constant time. </p>
+
+<img src="./pictures/Slow_Equal_Function.PNG" alt="function for determining if two strings are equal in length-constant time" />
+
+<p>Slow equal is a function that takes two strings and returns if they are equal in a way that takes a consistent amount of time regardless of how much of the two strings are equal. This stops hackers from gaining information about the contents of the correct password by measuring time it takes the system to compare the strings. </p>
+
+<p>Lastly, I wrote a function to help us convert the current plain text passwords to a format that uses the above security features. The function takes the database connection, the table we are working with, the column the plain text password is in and where we want the hashed password.</p>
+
+<p>It works by pulling all of the user ids and plain text passwords, runs the plain text password through the functions described above to convert it and then update the table using the provided user id to store the hashed password for the correct user. </p>
+
+<img src="./pictures/Convert_Password_Function.PNG" alt="function for converting plain text passwords to this storage method" />
+
+<p>Finally, the results:</p>
+
+<img src="./pictures/Result.PNG" alt="Database table with protected passwords" />
+
+<p>From here the old plain text password can be deleted from the database and the hashedPassword can be used.</p>
+
+<p>Results of testing the functions:</p>
+
+<img src="./pictures/Test.PNG" alt="Test of validation function" />
+ 
+
+
 
  
  
