@@ -159,6 +159,61 @@ phpBB2 was the most up to date  version at that time – and it had some securit
 	</tr>
 </table>
 
+<p>We were purposefully using weak passwords because we were well aware that we were storing them as plain text for a majority of the semester but this still does well to show the weakness of simply hashing passwords. It takes a little work, but it is very easy to match up hashes from a large dictionary of pre-computed hashes and a compromised database.  </p>
+
+<p>Further, without salts every user with the same password will be easily identified by comparing the hashes to one another because each string has a unique hash which identifies it and only it. </p>
+
+<h4>Adding A Salt</h4>
+ 
+<p>Look up tables are combated with the use of a salt. A salt is a unique string you add to a password before hashing it that makes it more challenging to create lookup tables. Some use a single hash for the entire website – this at least requires the hacker to create a new lookup table that correctly adds your salt before hashing. However, the best practice is to use a unique hash for each individual every time they modify their password. This means that lookup tables are impractical to create because a hacker would have to add each individual’s salt to the passwords he wanted to check and essentially create a lookup table for each individual using their unique salt.</p>
+
+<table>
+	<tr>
+		<td><b>Password</b></td>
+		<td><b>Salt</b></td>
+		<td><b>Hash</b></td>
+	</tr>
+	<tr>
+		<td>roots</td>
+		<td>58fd828b223789731cd555d3574151ad75a6c751</td>
+		<td>149517a6f1adaab8ced5721b853fe8dad49df7cd890d6005eac8d939fee46463</td>
+	</tr>
+	<tr>
+		<td>12345</td>
+		<td>e7ff7d0563d1493438838689329d6642901fbda0</td>
+		<td>cf73edf192683882e6fb5d1137a54db63b762e6c598e8d67dfbb25b39d7fa917</td>
+	</tr>
+	<tr>
+		<td>asdfg</td>
+		<td>b6c28b807050ba7bdc533561780d43af6dbf0ce8</td>
+		<td>50deb1ae076a04ec112fcd7f0dd16a02192d66ea2da6a7a9b99426bc199abe3c</td>
+	</tr>
+	<tr>
+		<td>12345</td>
+		<td>06b364b621e6103b4c66e6d816ba848bd7c8f195</td>
+		<td>10eefec6bf6d170e8e6c7c45cc55e939e1420f4308734d1966fffc0d34d5ddbf</td>
+	</tr>
+	<tr>
+		<td>password</td>
+		<td>c5a33789a815a983937119cc8394fa02ef8353ed</td>
+		<td>0163a37e81f5741989dabbcbd47bcc3c5ee696202a35af074659f5b6d46af751</td>
+	</tr>
+	<tr>
+		<td>mayrag</td>
+		<td>e5fb5e3b62ae2b79a1fceac04e4710aff277ad70</td>
+		<td>a283f60e718da0ce0d14230f525b0d572c8ceace65a0be8be471e649e4cbd5b1</td>
+	</tr>
+</table>
+
+ 	
+
+ 
+ 
+
+ 
+
+
+
 
 
 
