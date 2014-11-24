@@ -115,6 +115,56 @@ phpBB2 was the most up to date  version at that time – and it had some securit
 	</tr>
 </table>
 
+<p>The above are the most common passwords of 2013. Source: http://splashdata.com/press/worstpasswords2013.htm</p>
+
+<br />
+
+<p>If this table was used against the current passwords in Smockish database (if they were hashed in sha256): </p>
+
+<table>
+	<tr>
+		<td><b>User</b></td>
+		<td><b>Hash</b></td>
+		<td><b>Compromised Password</b></td>
+	</tr>
+	<tr>
+		<td>user1</td>
+		<td>a4e3c20a327766600f2e45b9b0735d26e2f809088dd323d7a5ad5d71d757dc69</td>
+		<td>??</td>
+	</tr>
+	<tr>
+		<td><b>user2</b></td>
+		<td><b>5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5</b></td>
+		<td><b>12345</b></td>
+	</tr>
+	<tr>
+		<td>user3</td>
+		<td>f969fdbe811d8a66010d6f8973246763147a2a0914afc8087839e29b563a5af0</td>
+		<td>??</td>
+	</tr>
+	<tr>
+		<td><b>user4</b></td>
+		<td><b>5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5</b></td>
+		<td><b>12345</b></td>
+	</tr>
+	<tr>
+		<td><b>user5</b></td>
+		<td><b>5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</b></td>
+		<td><b>password</b></td>
+	</tr>
+	<tr>
+		<td>user6</td>
+		<td>01a7c863763a49beecedd8c935187fdbfcebded36dc8f38fee1c77316c8d26ba</td>
+		<td>??</td>
+	</tr>
+</table>
+
+
+
+
+
+
+
 
 
 
