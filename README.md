@@ -1,4 +1,138 @@
-password-security
-=================
+<h1>Personal Project : Password Security</h1>
 
-Personal project on password security for web applications
+<h2>Background</h2>
+
+
+
+<p>My personal project is actually comprised of two individual elements with a unifying theme: data security. Growing up, the web was always a fascinating place for me and I always specifically had a great deal of interest for dynamic websites – those who used databases on their backend to provide more value (or fun as it may be with the games when I was younger). </p>
+
+<p>Many of games I played were writing-based or at least had a community component behind them. Several utilized the open source platform phpBB to provide message board and login functionality for the games. As I got older I began exploring web development more and bought my own web hosting plan so that I could upload phpBB to a server and see how everything was working. At that time, I had no programming background so the PHP was beyond my understanding – but I always found comfort in that I could use phpmyadmin to see how all of the information from the message board was stored and how the database helped everything come together. 
+phpBB2 was the most up to date  version at that time – and it had some security related issues. This lead to my websites I had created for friends to come and keep in touch on, to be hacked. One vulnerability that exited in phpBB2 was that passwords were only hashed with md5 – which was proven ineffective. This got me interested in data security. </p>
+
+<p>How this became my capstone individualized project is as follows: </p>
+
+<p>When the team first began work on Smockish and I was asked to design the schema for the database I asked Twayne, who was functioning as the team’s most experienced coder, how large I should make the password field to accommodate whatever hash he would be using, he was unclear what I was talking about. In CIS 425 password security is not taught – passwords are stored in the database as plain text strings. Thus, figuring out how best to handle password security became my personal project. </p>
+
+<p>Because my knowledge of these topics at the beginning was limited to the fact that they are important considerations, but not how to implement them, and due to the fact that is often very dangerous to be “creative” with security – this personal project will be a showcase of what I learned in the areas of password security as opposed to any innovative work in the area. </p>
+
+<h2>Password Security </h2>
+
+<p>Password security is very important. As we have seen in the news, it is not uncommon for businesses to have data breaches and for hackers to wind up with the information in a website's database. This means it is important to protect user security in the instance when hackers already have their data. For passwords this typically comes in the form of hashing passwords with a cryptographic hashing algorithm. What this does is give you a unique string which identifies the password and can be securely stored. When a user enters their password, you hash it and compare it to the hash stored in the database. If they match the user has successfully provided the password – if they do not, then the user has not successfully entered the correct password. </p>
+
+<h3>Shortfalls of Hash Only Systems </h3> 
+
+<p>While hashing adds some security in the instance that hackers get ahold of your database, alone hashing can be attacked with brute-force attacks and lookup tables. Brute force attacks will always eventually figure out a hashed password because it involves simply hashing every possible password until the resulting hash matches one of the hashed passwords in the database. However, with sufficiently long passwords brute force becomes a negligible problem due to the amount of time it would take. Look up tables are the larger concern.</p>
+
+<h4>Look Up Tables</h4>
+<p>These tables consist of previously computed hashes of common words and passwords and the hacker simply matches the hashed passwords from your database to his lookup table until he finds someone with a password he has pre-computed and can exploit.</p>
+
+<p>For example consider a look up table of: </p>
+
+<table>
+	<tr>
+		<td><b>Password</b></td>
+		<td><b>Sha256 Hash</b></td>
+	</tr>
+	<tr>
+		<td>123456</td>
+		<td>8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92</td>
+	</tr>
+	<tr>
+		<td>password</td>
+		<td>5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</td>
+	</tr>
+	<tr>
+		<td>12345678</td>
+		<td>ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f</td>
+	</tr>
+	<tr>
+		<td>qwerty</td>
+		<td>65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5</td>
+	</tr>
+	<tr>
+		<td>abc123</td>
+		<td>6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090</td>
+	</tr>
+	<tr>
+		<td>123456789</td>
+		<td>15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225</td>
+	</tr>
+	<tr>
+		<td>111111</td>
+		<td>bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a</td>
+	</tr>
+	<tr>
+		<td>1234567</td>
+		<td>8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414</td>
+	</tr>
+	<tr>
+		<td>iloveyou</td>
+		<td>e4ad93ca07acb8d908a3aa41e920ea4f4ef4f26e7f86cf8291c5db289780a5ae</td>
+	</tr>
+	<tr>
+		<td>adobe123</td>
+		<td>923783d62d262107202f1d290871b5a5dfc7fc75ee3a9a0869ecba42650b45aa</td>
+	</tr>
+	<tr>
+		<td>123123</td>
+		<td>96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e</td>
+	</tr>
+	<tr>
+		<td>admin</td>
+		<td>8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918</td>
+	</tr>
+	<tr>
+		<td>1234567890</td>
+		<td>c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646</td>
+	</tr>
+	<tr>
+		<td>letmein</td>
+		<td>1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032</td>
+	</tr>
+	<tr>
+		<td>photoshop</td>
+		<td>3f4a09b92ccf3382d71c8e3937b06b7945c6f1e42338d3f7e4c8577f220d810b</td>
+	</tr>
+	<tr>
+		<td>1234</td>
+		<td>03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4</td>
+	</tr>
+	<tr>
+		<td>monkey</td>
+		<td>000c285457fc971f862a79b786476c78812c8897063c6fa9c045f579a3b2d63f</td>
+	</tr>
+	<tr>
+		<td>shadow</td>
+		<td>0bb09d80600eec3eb9d7793a6f859bedde2a2d83899b70bd78e961ed674b32f4</td>
+	</tr>
+	<tr>
+		<td>sunshine</td>
+		<td>a941a4c4fd0c01cddef61b8be963bf4c1e2b0811c037ce3f1835fddf6ef6c223</td>
+	</tr>
+	<tr>
+		<td>12345</td>
+		<td>5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5</td>
+	</tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
