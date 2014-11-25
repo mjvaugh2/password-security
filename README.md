@@ -246,6 +246,12 @@ Much like the tutorial, my code is broken up into three main function: one to cr
 <p>Results of testing the functions:</p>
 
 <img src="./pictures/Test.PNG" alt="Test of validation function" />
+
+<h5>Sources</h5>
+http://www.darkreading.com/safely-storing-user-passwords-hashing-vs-encrypting/a/d-id/1269374
+http://www.codeproject.com/Articles/704865/Salted-Password-Hashing-Doing-it-Right
+
+
  
 
 
